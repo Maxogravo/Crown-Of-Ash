@@ -3,7 +3,7 @@
 #include "scenes.h"
 
 int main() {
-    InitWindow(1080, 720, "Game");
+    InitWindow(1080, 720, "Crown Of Ash");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
         Intro();
