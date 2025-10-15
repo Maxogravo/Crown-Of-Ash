@@ -1,20 +1,7 @@
 #define RAYLIB_CPP
 #include "raylib.h"
 #include <iostream>
-
-class PlayerCharacter {
-    public:
-        int health;
-        int level;
-        int XP;
-        int x;
-        int y;
-        int speed;
-    
-    void draw() {
-        DrawCircle(x,y,25,BLUE);
-    }
-};
+#include "entities.h"
 
 int main() {
     // Player Values
@@ -26,19 +13,32 @@ int main() {
     player.y = 360;
     player.speed = 2;
 
+    // Enemy Values
+    Enemy enemy;
+    enemy.health = 25;
+    enemy.damage = 5;
+    enemy.speed = 1;
+    enemy.x = 100;
+    enemy.y = 100;
+
     InitWindow(1080, 720, "Crown Of Ash");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
 
-        // Controlling
+        // Controlling Player
         if (IsKeyDown(KEY_W)) player.y -= player.speed;
         if (IsKeyDown(KEY_S)) player.y += player.speed;
         if (IsKeyDown(KEY_A)) player.x -= player.speed;
         if (IsKeyDown(KEY_D)) player.x += player.speed;
 
+        // Enemy Logic
+        enemy.ApproachPlayer(player);
+
+        // Drawing 
         BeginDrawing();
         ClearBackground(RAYWHITE);
         player.draw();
+        enemy.draw();
         EndDrawing();
     }
 }
