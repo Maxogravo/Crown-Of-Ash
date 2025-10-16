@@ -1,56 +1,48 @@
 #define RAYLIB_CPP
 #include "raylib.h"
-#include <iostream>
 #include "entities.h"
+#include <iostream>
 
-PlayerCharacter player;
-void resetPlayer() {
-    player.health = 100;
-    player.level = 0;
-    player.XP = 0;
-    player.x = 540;
-    player.y = 360;
-    player.speed = 2;
-    player.dead = false;
-}
+enum Scene {Intro, Ch1T, Ch1L1};
 
 int main() {
-    resetPlayer();
-
-    // Enemy Values
-    Enemy enemy;
-    enemy.health = 25;
-    enemy.damage = 5;
-    enemy.speed = 1;
-    enemy.x = 100;
-    enemy.y = 100;
+    PlayerCharacter player;
+    player.health = 100;
+    player.speed = 2;
+    player.x = 0;
+    player.y = 0;
+    bool dead = false;
 
     InitWindow(1080, 720, "Crown Of Ash");
     SetTargetFPS(60);
-    while (!WindowShouldClose()) {
-        while (!player.dead) {
-            // Controlling Player
-            if (IsKeyDown(KEY_W)) player.y -= player.speed;
-            if (IsKeyDown(KEY_S)) player.y += player.speed;
-            if (IsKeyDown(KEY_A)) player.x -= player.speed;
-            if (IsKeyDown(KEY_D)) player.x += player.speed;
-            // Enemy Logic
-            enemy.ApproachPlayer(player);
-            if (enemy.x == player.x && enemy.y == player.y) player.dead = true;
-            // Drawing 
-            BeginDrawing();
-            ClearBackground(RAYWHITE);
-            player.draw();
-            enemy.draw();
-            EndDrawing();
-
+    Scene currentScene = Intro;
+    
+    while (!WindowShouldClose()){
+        switch(currentScene){
+            case Intro:
+                BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("Depart from me, for I never knew you...", 248, 345,30, WHITE);
+                EndDrawing();
+                if(IsKeyPressed(KEY_ENTER)) currentScene = Ch1T;
+                break;
+            case Ch1T:
+                BeginDrawing();
+                ClearBackground(BLACK);
+                DrawText("Chapter 1: Limbo", 420.0, 345.0, 30, WHITE);
+                EndDrawing();
+                if(IsKeyPressed(KEY_ENTER)) currentScene = Ch1L1;
+                break;
+            case Ch1L1:
+                player.x = 528;
+                player.y = 348;
+                BeginDrawing();
+                ClearBackground(BLACK);
+                player.draw();
+                EndDrawing();
+                break;
         }
-        BeginDrawing();
-        player.death();
-        if (IsKeyDown(KEY_R)) {
-            ClearBackground(RAYWHITE);
-            resetPlayer();
-        }
-        EndDrawing();
     }
+    CloseWindow();
+    return 0;
 }

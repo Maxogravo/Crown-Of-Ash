@@ -38,3 +38,9 @@ class Enemy{
         if (y > player.y) y -= speed;
     }
 };
+
+// if (enemy.x == player.x && enemy.y == player.y) player.dead = true;
+//            if (IsKeyDown(KEY_W)) player.y -= player.speed;
+//            if (IsKeyDown(KEY_S)) player.y += player.speed;
+//            if (IsKeyDown(KEY_A)) player.x -= player.speed;
+//           if (IsKeyDown(KEY_D)) player.x += player.speed;
