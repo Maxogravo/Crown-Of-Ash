@@ -8,6 +8,7 @@ class PlayerCharacter {
         int x;
         int y;
         int speed;
+        bool dead;
     
     void draw() {
         DrawRectangle(x,y,25,25,BLUE);

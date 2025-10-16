@@ -3,15 +3,19 @@
 #include <iostream>
 #include "entities.h"
 
-int main() {
-    // Player Values
-    PlayerCharacter player;
+PlayerCharacter player;
+void resetPlayer() {
     player.health = 100;
     player.level = 0;
     player.XP = 0;
     player.x = 540;
     player.y = 360;
     player.speed = 2;
+    player.dead = false;
+}
+
+int main() {
+    resetPlayer();
 
     // Enemy Values
     Enemy enemy;
@@ -24,21 +28,29 @@ int main() {
     InitWindow(1080, 720, "Crown Of Ash");
     SetTargetFPS(60);
     while (!WindowShouldClose()) {
+        while (!player.dead) {
+            // Controlling Player
+            if (IsKeyDown(KEY_W)) player.y -= player.speed;
+            if (IsKeyDown(KEY_S)) player.y += player.speed;
+            if (IsKeyDown(KEY_A)) player.x -= player.speed;
+            if (IsKeyDown(KEY_D)) player.x += player.speed;
+            // Enemy Logic
+            enemy.ApproachPlayer(player);
+            if (enemy.x == player.x && enemy.y == player.y) player.dead = true;
+            // Drawing 
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            player.draw();
+            enemy.draw();
+            EndDrawing();
 
-        // Controlling Player
-        if (IsKeyDown(KEY_W)) player.y -= player.speed;
-        if (IsKeyDown(KEY_S)) player.y += player.speed;
-        if (IsKeyDown(KEY_A)) player.x -= player.speed;
-        if (IsKeyDown(KEY_D)) player.x += player.speed;
-
-        // Enemy Logic
-        enemy.ApproachPlayer(player);
-
-        // Drawing 
+        }
         BeginDrawing();
-        ClearBackground(RAYWHITE);
-        player.draw();
-        enemy.draw();
+        player.death();
+        if (IsKeyDown(KEY_R)) {
+            ClearBackground(RAYWHITE);
+            resetPlayer();
+        }
         EndDrawing();
     }
 }
