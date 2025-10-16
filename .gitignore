@@ -1,2 +1,4 @@
 makefile
 main
+test
+src/test.cpp
