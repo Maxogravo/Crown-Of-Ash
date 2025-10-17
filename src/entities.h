@@ -9,9 +9,13 @@ class PlayerCharacter {
         int y;
         int speed;
         bool dead;
-    
+
+    Texture2D pSprite = LoadTexture("Assets/guy1.png");  
     void draw() {
-        DrawRectangle(x,y,25,25,BLUE);
+        Rectangle sourceRec = { 1080 * currentFrame, 0, 1080, 720 };
+        Rectangle destRec = { x, y, 1080,7 20 };
+        Vector2 origin = {x, y};
+        DrawTexturePro(pSprite, sourceRec, destRec, origin, 0.0f, WHITE);
     }
     void death() {
         ClearBackground(BLACK);
